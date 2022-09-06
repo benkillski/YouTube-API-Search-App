@@ -5,25 +5,70 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube API Search App</title>
+    <style>
+        * {
+            margin: 5px 0;
+        }
+        body {
+            text-align: center;
+        }
+        img {
+            width: 90%;
+        }
+        #search-bar {
+            width: 40%;
+            height: 30px;
+            margin: 30px 0;
+        }
+        #video-divs {
+            display: flex;
+            flex-wrap: wrap;
+            text-align: left;
+        }
+        .video-div {
+            width: 33%;
+        }
+    </style>
 </head>
 <body>
-    <div id="res"></div>
+    <form id="search-form">
+        <input id="search-bar" placeholder="Search" type="text">
+    </form>
+    <div id="video-divs"></div>
     <script>
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if(this.readyState == 4 && this.status == 200) {
-                var res = JSON.parse(xhttp.responseText);
-                var videoData = res.items.map(function(item) {
-                    return item.snippet
-                });
+        var searchForm = document.querySelector("#search-form");
+        searchForm.addEventListener("submit", function(e) {
+            e.preventDefault();
 
-                videoData.forEach(function(video) {
-                    
-                })
-            }
-        };
-        xhttp.open("GET", "https://www.googleapis.com/youtube/v3/search?part=snippet&q=surfing&key=AIzaSyCrNPx-1Py8qPenwLlikhLpHe976QEtB-M")
-        xhttp.send();
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    var res = JSON.parse(xhttp.responseText);
+                    var videoData = res.items.map(function(item) {
+                        return item.snippet
+                    });
+
+                    var container = document.querySelector("#video-divs");
+                    container.innerHTML = "";
+                    videoData.forEach(function(video) {
+                        console.log(video);
+                        var videoDiv = document.createElement("div");
+                        videoDiv.classList.add("video-div");
+                        videoDiv.innerHTML = `
+                            <img src="${video.thumbnails.high.url}">
+                            <h4>${video.title}</h4>
+                            <p>${video.channelTitle}</p>
+                            <p>${new Date(video.publishTime).toLocaleDateString()}</p>
+                        `;
+                        container.appendChild(videoDiv);
+                    })
+                }
+            };
+            var textValue = document.querySelector("#search-bar").value;
+            xhttp.open("GET", `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${textValue}&maxResults=9&key=AIzaSyCrNPx-1Py8qPenwLlikhLpHe976QEtB-M`);
+            xhttp.send();
+        });
+        
     </script>
 </body>
 </html>
