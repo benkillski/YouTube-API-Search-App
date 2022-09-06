@@ -8,9 +8,15 @@
     <style>
         html, body {
             margin: 5px 0;
+            color: white;
+            background-color: #202020;
         }
         body {
             text-align: center;
+        }
+        input[type="text"] {
+            background-color: black;
+            color: grey;
         }
         #header {
             display: flex;
@@ -27,9 +33,11 @@
             margin: 30px 0;
         }
         #video-divs {
+            background-color: black;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
+            margin: 0 20px;
         }
         .video-div {
             display: flex;
@@ -83,7 +91,7 @@
                 }
             };
             var textValue = document.querySelector("#search-bar").value;
-            xhttp.open("GET", `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${textValue}&maxResults=9&key=AIzaSyCrNPx-1Py8qPenwLlikhLpHe976QEtB-M`);
+            xhttp.open("GET", `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${textValue}&maxResults=12&key=AIzaSyCrNPx-1Py8qPenwLlikhLpHe976QEtB-M`);
             xhttp.send();
         });
         
