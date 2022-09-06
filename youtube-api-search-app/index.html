@@ -6,14 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube API Search App</title>
     <style>
-        * {
+        html, body {
             margin: 5px 0;
         }
         body {
             text-align: center;
         }
-        img {
-            width: 90%;
+        #header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #youtube-logo {
+            width: 75px;
+            margin-left: 20px;
         }
         #search-bar {
             width: 40%;
@@ -23,14 +29,26 @@
         #video-divs {
             display: flex;
             flex-wrap: wrap;
-            text-align: left;
+            align-items: center;
         }
         .video-div {
+            display: flex;
+            flex-direction: column;
             width: 33%;
+            text-align: left;
+            padding: 0 1px;
+        }
+        .thumbnail {
+            width: 90%;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
+    <div id="header">
+        <h1>YouTube API Search </h1>
+        <img id="youtube-logo" src="https://clipart.info/images/ccovers/1590430652red-youtube-logo-png-xl.png">
+    </div>   
     <form id="search-form">
         <input id="search-bar" placeholder="Search" type="text">
     </form>
@@ -55,10 +73,10 @@
                         var videoDiv = document.createElement("div");
                         videoDiv.classList.add("video-div");
                         videoDiv.innerHTML = `
-                            <img src="${video.thumbnails.high.url}">
-                            <h4>${video.title}</h4>
-                            <p>${video.channelTitle}</p>
-                            <p>${new Date(video.publishTime).toLocaleDateString()}</p>
+                            <img class="thumbnail" src="${video.thumbnails.high.url}">
+                            <h4 class="video-title">${video.title}</h4>
+                            <p class="channel-name">${video.channelTitle}</p>
+                            <p class="publish-date">${new Date(video.publishTime).toLocaleDateString()}</p>
                         `;
                         container.appendChild(videoDiv);
                     })
